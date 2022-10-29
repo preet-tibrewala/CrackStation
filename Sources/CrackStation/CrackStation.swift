@@ -52,21 +52,21 @@ public struct CrackStation: Decrypter {
 public func decrypt(shaHash: String) -> String? {
     let filePath = FileManager.default.currentDirectoryPath + "/Sources/CrackStation/Resources/data.json"
     let fileManager = FileManager.default
-    print("Test1")
+    
 
     if fileManager.fileExists(atPath: filePath) {
-            print("Test2")
+            
             do{
                 let datatable = try loadDictionaryFromDisk()
                 let ans = datatable[shaHash] ?? nil
-                print("Test3")
+               
                 return ans
             } catch {
-                print("Test4")
+              
                 return "error"
             }
     } else {
-            print("Test5")
+            
 
             do{
                 
@@ -76,7 +76,7 @@ public func decrypt(shaHash: String) -> String? {
                     let _ = try Runscript("mv data.json Sources/CrackStation")
                 }
                 let datatable = try loadDictionaryFromDisk()
-                let ans = datatable[shaHash] ?? "Not found"
+                let ans = datatable[shaHash] ?? nil
                 return ans
             } catch {
                 return "error"
