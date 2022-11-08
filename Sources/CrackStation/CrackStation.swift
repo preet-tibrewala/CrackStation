@@ -9,81 +9,36 @@ public protocol Decrypter {
     /// - Returns: The underlying plain-text password if `shaHash` was successfully cracked. Otherwise returns nil.
     func decrypt(shaHash: String) -> String?
 }
-
-func loadDictionaryFromDisk() throws -> [String : String] {
-    guard let path = Bundle.module.url(forResource: "data", withExtension: "json") else { return [:] }
-
-        let IPdata = try Data(contentsOf: path)
-        let OPjson = try JSONSerialization.jsonObject(with: IPdata)
-
-        if let datatable: Dictionary = OPjson as? Dictionary<String, String> {
-            return datatable
-        } else {
-            return [:]
-    }
-}
-
 public struct CrackStation: Decrypter {
-    
     public init() {
     }
 
-    func Runscript(_ command: String) throws -> String {
-    let RunTask = Process()
-    let Runpipe = Pipe()
-    
-    RunTask.standardOutput = Runpipe
-    RunTask.standardError = Runpipe
-    RunTask.arguments = ["-c", command]
-    RunTask.executableURL = URL(fileURLWithPath: "/bin/sh") //<--updated
-    RunTask.standardInput = nil
+    func loadDictionaryFromDisk() throws -> [String : String] {
+        guard let path = Bundle.module.url(forResource: "data", withExtension: "json") else { return [:] }
 
-    try RunTask.run() //<--updated
-    
-    let data = Runpipe.fileHandleForReading.readDataToEndOfFile()
-    let output = String(data: data, encoding: .utf8)!
-    
-    return output
-    }
+            let IPdata = try Data(contentsOf: path)
+            let OPjson = try JSONSerialization.jsonObject(with: IPdata)
 
-
-
-
-public func decrypt(shaHash: String) -> String? {
-    let filePath = FileManager.default.currentDirectoryPath + "/Sources/CrackStation/Resources/data.json"
-    let fileManager = FileManager.default
-    
-
-    if fileManager.fileExists(atPath: filePath) {
-            
-            do{
-                let datatable = try loadDictionaryFromDisk()
-                let ans = datatable[shaHash] ?? nil
-               
-                return ans
-            } catch {
-              
-                return "error"
-            }
-    } else {
-            
-
-            do{
-                
-                let result = try Runscript("python3 ../../Sources/CrackStation/Resources/databuild.py")
-                let _ = try Runscript("mv data.json ../../Sources/CrackStation/Resources")
-                if result.contains("No such file or directory") {
-                    let _ = try Runscript("mv data.json Sources/CrackStation")
-                }
-                let datatable = try loadDictionaryFromDisk()
-                let ans = datatable[shaHash] ?? nil
-                return ans
-            } catch {
-                return "error"
-            }
+            if let datatable: Dictionary = OPjson as? Dictionary<String, String> {
+                return datatable
+            } else {
+                return [:]
         }
+    }
+    
+    public func decrypt(shaHash: String) -> String? {
+        do{
+                let datatable = try loadDictionaryFromDisk()
+                let ans = datatable[shaHash] ?? nil
+                
+                return ans
+            } catch {
+                
+                return nil
+            }
+        } 
 }
 
-}
+
 
 
