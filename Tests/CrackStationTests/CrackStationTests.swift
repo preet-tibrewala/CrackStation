@@ -26,5 +26,30 @@ final class CrackStationTests: XCTestCase {
         let decrypted = CrackStation().decrypt(shaHash: inputhash) ?? nil
         XCTAssertEqual(decrypted, "99")
     }
-    
+
+    func testMVPsha1_3() throws {
+
+        let inputhash = "e1e154e5261dc0011fd40e84d2cad1566e9ccfe3"
+        let decrypted = CrackStation().decrypt(shaHash: inputhash) ?? nil
+        XCTAssertEqual(decrypted, "a!A")
+    }
+
+    func testMVPsha256_1() throws {
+
+        let inputhash = "bbeebd879e1dff6918546dc0c179fdde505f2a21591c9a9c96e36b054ec5af83"
+        let decrypted = CrackStation().decrypt(shaHash: inputhash) ?? nil
+        XCTAssertEqual(decrypted, "Z")
+    }
+    func testMVPsha256_2() throws {
+
+        let inputhash = "8982b44a300b2c1170ef77bbac5d691de2631fb64b4b617af0eb78327b300e6b"
+        let decrypted = CrackStation().decrypt(shaHash: inputhash) ?? nil
+        XCTAssertEqual(decrypted, "A!")
+    }
+    func testMVPsha256_3() throws {
+
+        let inputhash = "e84c538e7fe250730ef62de220c40dfa808d3008c0cdb437181564b88b8714b8"
+        let decrypted = CrackStation().decrypt(shaHash: inputhash) ?? nil
+        XCTAssertEqual(decrypted, "!!!")
+    }
 }
