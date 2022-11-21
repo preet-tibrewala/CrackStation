@@ -27,7 +27,7 @@ Usage
 The API
 --
 
-The `init()` function loads the `data.json` file into a dictionary called `lookuptable`. 
+The `init()` function loads the `data.json` file into a dictionary called `lookuptable`. The `data.json` file holds unsalted hashes and their plaintext password.
 ```
 public init() {
         do{
@@ -40,7 +40,7 @@ public init() {
         }
     }
 ```
-The `data.json` file holds unsalted hashes and their plaintext password.
+
 The `decrypt(shaHash: String)` takes SHA1 or SHA256 encrypted unsalted hashes as input and matches them to their respective values from lookuptable dictionary and returns the decrypted plaintext password.
 ```
 public func decrypt(shaHash: String) -> String? {
