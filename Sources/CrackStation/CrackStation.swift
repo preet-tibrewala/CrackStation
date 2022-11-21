@@ -6,7 +6,7 @@ public protocol Decrypter {
 }
 public struct CrackStation: Decrypter {
 
-    var lookupTable: Dictionary <String,String> = [:]
+    private var lookupTable: Dictionary <String,String> = [:]
     public init() {
         do{
             guard let path = Bundle.module.url(forResource: "data", withExtension: "json") else {return}
@@ -14,7 +14,7 @@ public struct CrackStation: Decrypter {
             let jsonoutput = try JSONSerialization.jsonObject(with: data) as? Dictionary<String, String>
             lookupTable = jsonoutput ?? [:]
         } catch {
-                print("Error Loading from dictionary")
+            print("Error Loading from dictionary")
         }
     }
     
