@@ -6,15 +6,16 @@ public protocol Decrypter {
 }
 public struct CrackStation: Decrypter {
 
-    private var lookupTable: Dictionary <String,String> = [:]
+    private let lookupTable: Dictionary <String,String>
     public init() {
         do{
-            guard let path = Bundle.module.url(forResource: "data", withExtension: "json") else {return}
+            guard let path = Bundle.module.url(forResource: "data", withExtension: "json") else {lookupTable = [:]; return}
             let data = try Data(contentsOf: path)
             let jsonoutput = try JSONSerialization.jsonObject(with: data) as? Dictionary<String, String>
             lookupTable = jsonoutput ?? [:]
         } catch {
             print("Error Loading from dictionary")
+            lookupTable = [:]
         }
     }
     
