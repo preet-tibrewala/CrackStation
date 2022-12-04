@@ -14,7 +14,7 @@ Password decryption can be useful in recovery of passwords which allows the succ
 Installation
 --
 
-The [Swift Package Manager]( https://www.swift.org/package-manager) is " a tool for managing the distribution of Swift Code. It's integrated with the Swift build system to automate the process of downloading, compiling, and linking dependencies."
+The [Swift Package Manager]( https://www.swift.org/package-manager) is "a tool for managing the distribution of Swift Code. It is integrated with the Swift build system to automate the process of downloading, compiling, and linking dependencies."
 Once you have your Swift package set up, add CrackStation to the list of dependencies in your `Package.swift` file:
 ```
 dependencies:[
@@ -28,26 +28,10 @@ The API
 --
 
 The `init()` function loads the `data.json` file into a dictionary called `lookuptable`. The `data.json` file holds unsalted hashes and their plaintext password.
-```
-public init() {
-        do{
-            guard let path = Bundle.module.url(forResource: "data", withExtension: "json") else {return}
-            let data = try Data(contentsOf: path)
-            let jsonoutput = try JSONSerialization.jsonObject(with: data) as? Dictionary<String, String>
-            lookupTable = jsonoutput ?? [:]
-        } catch {
-            print("Error Loading from dictionary")
-        }
-    }
-```
+
 
 The `decrypt(shaHash: String)` takes SHA1 or SHA256 encrypted unsalted hashes as input and matches them to their respective values from lookuptable dictionary and returns the decrypted plaintext password.
-```
-public func decrypt(shaHash: String) -> String? {
-        let password = lookupTable[shaHash]
-        return password
-    }  
-```
+
 
 
 An Example
@@ -58,6 +42,7 @@ The variable `decrypted` will have plaintext password of the `InputHash` which i
 InputHash = "e84c538e7fe250730ef62de220c40dfa808d3008c0cdb437181564b88b8714b8"
 decrypted = CrackStation().decrypt(shaHash: inputhash)
 ```
+If the plaintext password will contain any character other than regular expression `[A-Za-z0-9?!]{1,3}` the API will not be able to crack it.
 
 Author
 --
